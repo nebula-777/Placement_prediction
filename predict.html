@@ -82,6 +82,7 @@
             cursor: pointer;
             margin-top: 20px;
         }
+        .btn:hover { transform: translateY(-2px); }
         .result-box {
             background: #f8f9fa;
             border-radius: 15px;
@@ -165,7 +166,7 @@
                     <input type="number" id="aptitudeScore" min="0" max="100" placeholder="Enter your score">
                 </div>
                 
-                <button class="btn" id="predictBtn">🔮 Predict Placement Chance</button>
+                <button class="btn" id="predictBtn" onclick="doPrediction()">🔮 Predict Placement Chance</button>
             </div>
             
             <div id="resultSection" style="display: none;">
@@ -173,7 +174,7 @@
                     <h3>Your Placement Chance</h3>
                     <div class="chance" id="chance">0%</div>
                     <div class="bar"><div class="fill" id="fill"></div></div>
-                    <div id="category" style="font-size: 18px; font-weight: bold;"></div>
+                    <div id="category" style="font-size: 18px; font-weight: bold; margin: 10px 0;"></div>
                     <div id="breakdown" style="margin-top: 20px; text-align: left;"></div>
                     <button class="btn" onclick="resetForm()" style="margin-top: 20px;">Predict Again</button>
                 </div>
@@ -182,49 +183,84 @@
     </div>
     
     <script>
-        function calculatePlacement() {
-            const cgpa = parseFloat(document.getElementById('cgpa').value);
-            const technicalSkills = Array.from(document.querySelectorAll('#technicalSkills input:checked')).map(cb => cb.value);
-            const softSkills = Array.from(document.querySelectorAll('#softSkills input:checked')).map(cb => cb.value);
-            const internships = parseInt(document.getElementById('internships').value);
-            const projects = parseInt(document.getElementById('projects').value);
-            const aptitudeScore = parseInt(document.getElementById('aptitudeScore').value);
+        function doPrediction() {
+            // Get values
+            let cgpa = parseFloat(document.getElementById('cgpa').value);
+            let technicalSkills = [];
+            let softSkills = [];
             
-            const cgpaScore = (cgpa / 10) * 100;
-            const techScore = Math.min(100, technicalSkills.length * 15);
-            const softScore = Math.min(100, softSkills.length * 12);
-            const internshipScore = Math.min(100, internships * 25);
-            const projectScore = Math.min(100, projects * 15);
-            const aptitude = aptitudeScore;
+            // Get checked technical skills
+            document.querySelectorAll('#technicalSkills input:checked').forEach(function(cb) {
+                technicalSkills.push(cb.value);
+            });
             
-            const finalScore = (cgpaScore * 0.25 + techScore * 0.30 + softScore * 0.15 + internshipScore * 0.10 + projectScore * 0.10 + aptitude * 0.10);
+            // Get checked soft skills
+            document.querySelectorAll('#softSkills input:checked').forEach(function(cb) {
+                softSkills.push(cb.value);
+            });
             
+            let internships = parseInt(document.getElementById('internships').value) || 0;
+            let projects = parseInt(document.getElementById('projects').value) || 0;
+            let aptitudeScore = parseInt(document.getElementById('aptitudeScore').value) || 0;
+            
+            // Validate
+            if (isNaN(cgpa) || cgpa < 0 || cgpa > 10) {
+                alert('Please enter a valid CGPA between 0 and 10');
+                return;
+            }
+            
+            if (isNaN(aptitudeScore) || aptitudeScore < 0 || aptitudeScore > 100) {
+                alert('Please enter a valid aptitude score between 0 and 100');
+                return;
+            }
+            
+            // Calculate scores
+            let cgpaScore = (cgpa / 10) * 100;
+            let techScore = Math.min(100, technicalSkills.length * 15);
+            let softScore = Math.min(100, softSkills.length * 12);
+            let internshipScore = Math.min(100, internships * 25);
+            let projectScore = Math.min(100, projects * 15);
+            let aptitude = aptitudeScore;
+            
+            // Calculate final score
+            let finalScore = (cgpaScore * 0.25) + (techScore * 0.30) + (softScore * 0.15) + (internshipScore * 0.10) + (projectScore * 0.10) + (aptitude * 0.10);
+            
+            // Determine category and chance
             let category, placementChance;
-            if (finalScore >= 85) { category = "Excellent"; placementChance = 95; }
-            else if (finalScore >= 70) { category = "Very Good"; placementChance = 85; }
-            else if (finalScore >= 55) { category = "Good"; placementChance = 70; }
-            else if (finalScore >= 40) { category = "Average"; placementChance = 50; }
-            else { category = "Needs Improvement"; placementChance = 30; }
+            if (finalScore >= 85) {
+                category = "Excellent";
+                placementChance = 95;
+            } else if (finalScore >= 70) {
+                category = "Very Good";
+                placementChance = 85;
+            } else if (finalScore >= 55) {
+                category = "Good";
+                placementChance = 70;
+            } else if (finalScore >= 40) {
+                category = "Average";
+                placementChance = 50;
+            } else {
+                category = "Needs Improvement";
+                placementChance = 30;
+            }
             
-            return { placementChance, finalScore: Math.round(finalScore), category, breakdown: { cgpa: Math.round(cgpaScore), technical: Math.round(techScore), softSkills: Math.round(softScore), internships: Math.round(internshipScore), projects: Math.round(projectScore), aptitude: Math.round(aptitude) } };
-        }
-        
-        document.getElementById('predictBtn').addEventListener('click', () => {
-            const result = calculatePlacement();
+            // Show results
             document.getElementById('formSection').style.display = 'none';
             document.getElementById('resultSection').style.display = 'block';
-            document.getElementById('chance').textContent = result.placementChance + '%';
-            document.getElementById('fill').style.width = result.placementChance + '%';
-            document.getElementById('category').textContent = result.category;
-            const breakdownDiv = document.getElementById('breakdown');
-            breakdownDiv.innerHTML = '<strong>Score Breakdown:</strong><br>' +
-                `CGPA: ${result.breakdown.cgpa}%<br>` +
-                `Technical Skills: ${result.breakdown.technical}%<br>` +
-                `Soft Skills: ${result.breakdown.softSkills}%<br>` +
-                `Internships: ${result.breakdown.internships}%<br>` +
-                `Projects: ${result.breakdown.projects}%<br>` +
-                `Aptitude: ${result.breakdown.aptitude}%`;
-        });
+            document.getElementById('chance').innerHTML = placementChance + '%';
+            document.getElementById('fill').style.width = placementChance + '%';
+            document.getElementById('category').innerHTML = category;
+            
+            // Show breakdown
+            let breakdownHtml = '<strong>Score Breakdown:</strong><br>';
+            breakdownHtml += '📚 CGPA: ' + Math.round(cgpaScore) + '%<br>';
+            breakdownHtml += '💻 Technical Skills: ' + Math.round(techScore) + '%<br>';
+            breakdownHtml += '🤝 Soft Skills: ' + Math.round(softScore) + '%<br>';
+            breakdownHtml += '📁 Internships: ' + Math.round(internshipScore) + '%<br>';
+            breakdownHtml += '🚀 Projects: ' + Math.round(projectScore) + '%<br>';
+            breakdownHtml += '📊 Aptitude: ' + Math.round(aptitude) + '%';
+            document.getElementById('breakdown').innerHTML = breakdownHtml;
+        }
         
         function resetForm() {
             document.getElementById('formSection').style.display = 'block';
