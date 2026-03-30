@@ -68,7 +68,9 @@
             background: white;
             border-radius: 8px;
             cursor: pointer;
+            transition: all 0.3s;
         }
+        .skill-checkbox:hover { background: #e0e7ff; transform: scale(1.02); }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .btn {
             width: 100%;
@@ -81,46 +83,114 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 20px;
+            transition: transform 0.3s;
         }
         .btn:hover { transform: translateY(-2px); }
+        
+        /* Result Section Styles */
         .result-box {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 20px;
+            padding: 30px;
             margin-top: 20px;
             text-align: center;
+            animation: fadeIn 0.8s ease;
         }
-        .chance { font-size: 48px; font-weight: bold; color: #667eea; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .result-icon { font-size: 60px; margin-bottom: 15px; }
+        .chance {
+            font-size: 64px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 15px 0;
+        }
         .bar {
             width: 100%;
-            height: 20px;
+            height: 25px;
             background: #e0e0e0;
-            border-radius: 10px;
-            margin: 15px 0;
+            border-radius: 15px;
+            margin: 20px 0;
             overflow: hidden;
         }
         .fill {
             height: 100%;
             background: linear-gradient(90deg, #667eea, #764ba2);
             width: 0%;
-            transition: width 1s;
+            transition: width 1.5s ease;
+            border-radius: 15px;
         }
+        .category {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            margin: 15px 0;
+        }
+        .breakdown {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: left;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .breakdown h4 { color: #333; margin-bottom: 15px; font-size: 18px; }
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .breakdown-item:last-child { border-bottom: none; }
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .btn-primary, .btn-secondary {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #333;
+        }
+        .btn-primary:hover, .btn-secondary:hover { transform: translateY(-2px); }
+        
         @media (max-width: 768px) {
             .form-row { grid-template-columns: 1fr; }
             .skills-grid { grid-template-columns: 1fr 1fr; }
+            .chance { font-size: 48px; }
+            .btn-group { flex-direction: column; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <nav class="navbar">
-            <div class="logo">Placement<span>Predictor</span></div>
+            <div class="logo">🎓 Placement<span>Predictor</span></div>
             <a href="index.html" class="back-link">← Back</a>
         </nav>
         
         <div class="form-card">
-            <h1>Student Profile</h1>
-            <p>Fill in your details to get placement prediction</p>
+            <h1>📝 Student Profile</h1>
+            <p>Fill in your details to get placement prediction 🚀</p>
             
             <div id="formSection">
                 <div class="form-group">
@@ -131,22 +201,24 @@
                 <div class="form-group">
                     <label>💻 Technical Skills</label>
                     <div class="skills-grid" id="technicalSkills">
-                        <label class="skill-checkbox"><input type="checkbox" value="Python"> Python</label>
-                        <label class="skill-checkbox"><input type="checkbox" value="Java"> Java</label>
-                        <label class="skill-checkbox"><input type="checkbox" value="JavaScript"> JavaScript</label>
-                        <label class="skill-checkbox"><input type="checkbox" value="React"> React</label>
-                        <label class="skill-checkbox"><input type="checkbox" value="Node.js"> Node.js</label>
-                        <label class="skill-checkbox"><input type="checkbox" value="SQL"> SQL</label>
+                        <label class="skill-checkbox"><input type="checkbox" value="Python"> 🐍 Python</label>
+                        <label class="skill-checkbox"><input type="checkbox" value="Java"> ☕ Java</label>
+                        <label class="skill-checkbox"><input type="checkbox" value="JavaScript"> 📜 JavaScript</label>
+                        <label class="skill-checkbox"><input type="checkbox" value="React"> ⚛️ React</label>
+                        <label class="skill-checkbox"><input type="checkbox" value="Node.js"> 🟢 Node.js</label>
+                        <label class="skill-checkbox"><input type="checkbox" value="SQL"> 🗄️ SQL</label>
+                        <label class="skill-checkbox"><input type="checkbox" value="Machine Learning"> 🤖 ML</label>
+                        <label class="skill-checkbox"><input type="checkbox" value="Data Structures"> 📊 DSA</label>
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label>🤝 Soft Skills</label>
                     <div class="skills-grid" id="softSkills">
-                        <label class="skill-checkbox"><input type="checkbox" value="Communication"> Communication</label>
-                        <label class="skill-checkbox"><input type="checkbox" value="Teamwork"> Teamwork</label>
-                        <label class="skill-checkbox"><input type="checkbox" value="Leadership"> Leadership</label>
-                        <label class="skill-checkbox"><input type="checkbox" value="Problem Solving"> Problem Solving</label>
+                        <label class="skill-checkbox"><input type="checkbox" value="Communication"> 💬 Communication</label>
+                        <label class="skill-checkbox"><input type="checkbox" value="Teamwork"> 👥 Teamwork</label>
+                        <label class="skill-checkbox"><input type="checkbox" value="Leadership"> 🦸 Leadership</label>
+                        <label class="skill-checkbox"><input type="checkbox" value="Problem Solving"> 🧩 Problem Solving</label>
                     </div>
                 </div>
                 
@@ -162,7 +234,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>📊 Aptitude Score (%)</label>
+                    <label>📊 Aptitude Score (out of 100)</label>
                     <input type="number" id="aptitudeScore" min="0" max="100" placeholder="Enter your score">
                 </div>
                 
@@ -171,30 +243,44 @@
             
             <div id="resultSection" style="display: none;">
                 <div class="result-box">
-                    <h3>Your Placement Chance</h3>
+                    <div class="result-icon" id="resultIcon">🎯</div>
+                    <h3>✨ Your Placement Prediction ✨</h3>
                     <div class="chance" id="chance">0%</div>
                     <div class="bar"><div class="fill" id="fill"></div></div>
-                    <div id="category" style="font-size: 18px; font-weight: bold; margin: 10px 0;"></div>
-                    <div id="breakdown" style="margin-top: 20px; text-align: left;"></div>
-                    <button class="btn" onclick="resetForm()" style="margin-top: 20px;">Predict Again</button>
+                    <div class="category" id="category"></div>
+                    
+                    <div class="breakdown">
+                        <h4>📊 Score Breakdown</h4>
+                        <div id="breakdown"></div>
+                    </div>
+                    
+                    <div class="breakdown" id="recommendationsBox">
+                        <h4>💡 Personalized Recommendations</h4>
+                        <div id="recommendations"></div>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button class="btn-primary" onclick="downloadReport()">📥 Download Report</button>
+                        <button class="btn-secondary" onclick="resetForm()">🔄 Predict Again</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     
     <script>
+        let lastPredictionData = null;
+        
         function doPrediction() {
             // Get values
             let cgpa = parseFloat(document.getElementById('cgpa').value);
             let technicalSkills = [];
             let softSkills = [];
             
-            // Get checked technical skills
             document.querySelectorAll('#technicalSkills input:checked').forEach(function(cb) {
                 technicalSkills.push(cb.value);
             });
             
-            // Get checked soft skills
             document.querySelectorAll('#softSkills input:checked').forEach(function(cb) {
                 softSkills.push(cb.value);
             });
@@ -205,12 +291,12 @@
             
             // Validate
             if (isNaN(cgpa) || cgpa < 0 || cgpa > 10) {
-                alert('Please enter a valid CGPA between 0 and 10');
+                alert('❌ Please enter a valid CGPA between 0 and 10');
                 return;
             }
             
             if (isNaN(aptitudeScore) || aptitudeScore < 0 || aptitudeScore > 100) {
-                alert('Please enter a valid aptitude score between 0 and 100');
+                alert('❌ Please enter a valid aptitude score between 0 and 100');
                 return;
             }
             
@@ -225,46 +311,133 @@
             // Calculate final score
             let finalScore = (cgpaScore * 0.25) + (techScore * 0.30) + (softScore * 0.15) + (internshipScore * 0.10) + (projectScore * 0.10) + (aptitude * 0.10);
             
-            // Determine category and chance
-            let category, placementChance;
+            // Determine category, chance, icon, and color
+            let category, placementChance, icon, categoryColor;
             if (finalScore >= 85) {
-                category = "Excellent";
+                category = "🎉 Excellent - Top Performer!";
                 placementChance = 95;
+                icon = "🏆🎉⭐";
+                categoryColor = "#10b981";
             } else if (finalScore >= 70) {
-                category = "Very Good";
+                category = "👍 Very Good - Strong Candidate!";
                 placementChance = 85;
+                icon = "📈💪✨";
+                categoryColor = "#3b82f6";
             } else if (finalScore >= 55) {
-                category = "Good";
+                category = "📌 Good - On the Right Track!";
                 placementChance = 70;
+                icon = "📚🎯🌟";
+                categoryColor = "#8b5cf6";
             } else if (finalScore >= 40) {
-                category = "Average";
+                category = "⚠️ Average - Needs Improvement";
                 placementChance = 50;
+                icon = "🔄📖💪";
+                categoryColor = "#f59e0b";
             } else {
-                category = "Needs Improvement";
+                category = "🔴 Needs Improvement - Keep Working!";
                 placementChance = 30;
+                icon = "📚💪🎯";
+                categoryColor = "#ef4444";
             }
+            
+            // Store data for download
+            lastPredictionData = {
+                cgpa, cgpaScore, technicalSkills, techScore, softSkills, softScore,
+                internships, internshipScore, projects, projectScore, aptitude,
+                placementChance, category, finalScore
+            };
             
             // Show results
             document.getElementById('formSection').style.display = 'none';
             document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('resultIcon').innerHTML = icon;
             document.getElementById('chance').innerHTML = placementChance + '%';
             document.getElementById('fill').style.width = placementChance + '%';
             document.getElementById('category').innerHTML = category;
+            document.getElementById('category').style.background = categoryColor;
+            document.getElementById('category').style.color = 'white';
             
             // Show breakdown
-            let breakdownHtml = '<strong>Score Breakdown:</strong><br>';
-            breakdownHtml += '📚 CGPA: ' + Math.round(cgpaScore) + '%<br>';
-            breakdownHtml += '💻 Technical Skills: ' + Math.round(techScore) + '%<br>';
-            breakdownHtml += '🤝 Soft Skills: ' + Math.round(softScore) + '%<br>';
-            breakdownHtml += '📁 Internships: ' + Math.round(internshipScore) + '%<br>';
-            breakdownHtml += '🚀 Projects: ' + Math.round(projectScore) + '%<br>';
-            breakdownHtml += '📊 Aptitude: ' + Math.round(aptitude) + '%';
+            let breakdownHtml = '';
+            breakdownHtml += '<div class="breakdown-item"><span>📚 CGPA</span><span>' + Math.round(cgpaScore) + '%</span></div>';
+            breakdownHtml += '<div class="breakdown-item"><span>💻 Technical Skills (' + technicalSkills.length + ' skills)</span><span>' + Math.round(techScore) + '%</span></div>';
+            breakdownHtml += '<div class="breakdown-item"><span>🤝 Soft Skills (' + softSkills.length + ' skills)</span><span>' + Math.round(softScore) + '%</span></div>';
+            breakdownHtml += '<div class="breakdown-item"><span>📁 Internships</span><span>' + Math.round(internshipScore) + '%</span></div>';
+            breakdownHtml += '<div class="breakdown-item"><span>🚀 Projects</span><span>' + Math.round(projectScore) + '%</span></div>';
+            breakdownHtml += '<div class="breakdown-item"><span>📊 Aptitude</span><span>' + Math.round(aptitude) + '%</span></div>';
             document.getElementById('breakdown').innerHTML = breakdownHtml;
+            
+            // Generate recommendations
+            let recommendationsHtml = '';
+            if (techScore < 60) recommendationsHtml += '<div class="breakdown-item"><span>💻</span><span>Learn Python, Data Structures, and build projects</span></div>';
+            if (softScore < 60) recommendationsHtml += '<div class="breakdown-item"><span>🤝</span><span>Join public speaking clubs and group activities</span></div>';
+            if (internships === 0) recommendationsHtml += '<div class="breakdown-item"><span>📁</span><span>Apply for internships or work on real-world projects</span></div>';
+            if (projects < 3) recommendationsHtml += '<div class="breakdown-item"><span>🚀</span><span>Build 2-3 substantial projects and share on GitHub</span></div>';
+            if (cgpaScore < 70) recommendationsHtml += '<div class="breakdown-item"><span>📚</span><span>Focus on improving your CGPA in remaining semesters</span></div>';
+            if (aptitude < 70) recommendationsHtml += '<div class="breakdown-item"><span>📊</span><span>Practice aptitude questions daily on platforms like Indiabix</span></div>';
+            
+            if (recommendationsHtml === '') {
+                recommendationsHtml = '<div class="breakdown-item"><span>🎉</span><span>You\'re doing great! Focus on interview preparation and networking!</span></div>';
+            }
+            document.getElementById('recommendations').innerHTML = recommendationsHtml;
+        }
+        
+        function downloadReport() {
+            if (!lastPredictionData) return;
+            
+            let report = `╔══════════════════════════════════════════════════════════╗\n`;
+            report += `║              PLACEMENT PREDICTION REPORT                    ║\n`;
+            report += `╚══════════════════════════════════════════════════════════╝\n\n`;
+            report += `📅 Date: ${new Date().toLocaleString()}\n\n`;
+            
+            report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            report += `🎯 PREDICTION RESULT\n`;
+            report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            report += `🏆 Placement Chance: ${lastPredictionData.placementChance}%\n`;
+            report += `📊 Final Score: ${Math.round(lastPredictionData.finalScore)}%\n`;
+            report += `🏅 Category: ${lastPredictionData.category}\n\n`;
+            
+            report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            report += `📊 SCORE BREAKDOWN\n`;
+            report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            report += `📚 CGPA (${lastPredictionData.cgpa}/10): ${Math.round(lastPredictionData.cgpaScore)}%\n`;
+            report += `💻 Technical Skills (${lastPredictionData.technicalSkills.length} skills): ${Math.round(lastPredictionData.techScore)}%\n`;
+            report += `   Skills: ${lastPredictionData.technicalSkills.join(', ') || 'None'}\n`;
+            report += `🤝 Soft Skills (${lastPredictionData.softSkills.length} skills): ${Math.round(lastPredictionData.softScore)}%\n`;
+            report += `   Skills: ${lastPredictionData.softSkills.join(', ') || 'None'}\n`;
+            report += `📁 Internships (${lastPredictionData.internships}): ${Math.round(lastPredictionData.internshipScore)}%\n`;
+            report += `🚀 Projects (${lastPredictionData.projects}): ${Math.round(lastPredictionData.projectScore)}%\n`;
+            report += `📊 Aptitude Score: ${Math.round(lastPredictionData.aptitude)}%\n\n`;
+            
+            report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            report += `💡 RECOMMENDATIONS\n`;
+            report += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            
+            if (lastPredictionData.techScore < 60) report += `• Improve technical skills: Learn Python, DSA, and build projects\n`;
+            if (lastPredictionData.softScore < 60) report += `• Enhance soft skills: Join public speaking clubs and group activities\n`;
+            if (lastPredictionData.internships === 0) report += `• Gain internship experience: Apply for internships or real-world projects\n`;
+            if (lastPredictionData.projects < 3) report += `• Build more projects: Create 2-3 substantial projects for your portfolio\n`;
+            if (lastPredictionData.cgpaScore < 70) report += `• Improve CGPA: Focus on core subjects and maintain consistent study\n`;
+            
+            report += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+            report += `🌟 Best of luck for your placement journey! 🌟\n`;
+            
+            // Download file
+            const blob = new Blob([report], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Placement_Report_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
         
         function resetForm() {
             document.getElementById('formSection').style.display = 'block';
             document.getElementById('resultSection').style.display = 'none';
+            lastPredictionData = null;
         }
     </script>
 </body>
