@@ -5,21 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Predict Placement | Placement Predictor</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-        }
+        .container { max-width: 700px; margin: 0 auto; }
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -27,13 +20,8 @@
             padding: 20px 0;
             color: white;
         }
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-        }
-        .logo span {
-            color: #ffd700;
-        }
+        .logo { font-size: 24px; font-weight: bold; }
+        .logo span { color: #ffd700; }
         .back-link {
             color: white;
             text-decoration: none;
@@ -48,34 +36,21 @@
             margin-top: 20px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-        .form-card h1 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-        .form-card p {
-            color: #666;
-            margin-bottom: 30px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-card h1 { color: #333; margin-bottom: 10px; }
+        .form-card p { color: #666; margin-bottom: 30px; }
+        .form-group { margin-bottom: 20px; }
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
             color: #333;
         }
-        .form-group input, .form-group select {
+        .form-group input {
             width: 100%;
             padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: #667eea;
         }
         .skills-grid {
             display: grid;
@@ -93,20 +68,8 @@
             background: white;
             border-radius: 8px;
             cursor: pointer;
-            transition: background 0.3s;
         }
-        .skill-checkbox:hover {
-            background: #e0e7ff;
-        }
-        .skill-checkbox input {
-            width: auto;
-            cursor: pointer;
-        }
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .btn {
             width: 100%;
             padding: 15px;
@@ -118,31 +81,32 @@
             font-weight: bold;
             cursor: pointer;
             margin-top: 20px;
-            transition: transform 0.2s;
         }
-        .btn:hover {
-            transform: translateY(-2px);
-        }
-        .btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .error-message {
-            background: #fee;
-            color: #c33;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
             text-align: center;
         }
-        .success-message {
-            background: #e8f5e9;
-            color: #2e7d32;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            text-align: center;
+        .chance { font-size: 48px; font-weight: bold; color: #667eea; }
+        .bar {
+            width: 100%;
+            height: 20px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        .fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 1s;
+        }
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
@@ -155,14 +119,12 @@
         
         <div class="form-card">
             <h1>Student Profile</h1>
-            <p>Fill in your details to get accurate placement prediction</p>
+            <p>Fill in your details to get placement prediction</p>
             
-            <div id="statusMessage"></div>
-            
-            <form id="predictionForm">
+            <div id="formSection">
                 <div class="form-group">
                     <label>📚 CGPA (out of 10)</label>
-                    <input type="number" id="cgpa" step="0.01" min="0" max="10" required placeholder="Enter your CGPA">
+                    <input type="number" id="cgpa" step="0.01" min="0" max="10" placeholder="Enter your CGPA">
                 </div>
                 
                 <div class="form-group">
@@ -174,8 +136,6 @@
                         <label class="skill-checkbox"><input type="checkbox" value="React"> React</label>
                         <label class="skill-checkbox"><input type="checkbox" value="Node.js"> Node.js</label>
                         <label class="skill-checkbox"><input type="checkbox" value="SQL"> SQL</label>
-                        <label class="skill-checkbox"><input type="checkbox" value="Machine Learning"> Machine Learning</label>
-                        <label class="skill-checkbox"><input type="checkbox" value="Data Structures"> Data Structures</label>
                     </div>
                 </div>
                 
@@ -186,129 +146,90 @@
                         <label class="skill-checkbox"><input type="checkbox" value="Teamwork"> Teamwork</label>
                         <label class="skill-checkbox"><input type="checkbox" value="Leadership"> Leadership</label>
                         <label class="skill-checkbox"><input type="checkbox" value="Problem Solving"> Problem Solving</label>
-                        <label class="skill-checkbox"><input type="checkbox" value="Adaptability"> Adaptability</label>
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>📁 Internships Completed</label>
+                        <label>📁 Internships</label>
                         <input type="number" id="internships" min="0" max="5" value="0">
                     </div>
                     <div class="form-group">
-                        <label>🚀 Projects Completed</label>
+                        <label>🚀 Projects</label>
                         <input type="number" id="projects" min="0" max="10" value="0">
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label>📊 Aptitude Score (out of 100)</label>
-                    <input type="number" id="aptitudeScore" min="0" max="100" required placeholder="Enter your aptitude test score">
+                    <label>📊 Aptitude Score (%)</label>
+                    <input type="number" id="aptitudeScore" min="0" max="100" placeholder="Enter your score">
                 </div>
                 
-                <button type="submit" class="btn" id="predictBtn">🔮 Predict Placement Chance</button>
-            </form>
+                <button class="btn" id="predictBtn">🔮 Predict Placement Chance</button>
+            </div>
+            
+            <div id="resultSection" style="display: none;">
+                <div class="result-box">
+                    <h3>Your Placement Chance</h3>
+                    <div class="chance" id="chance">0%</div>
+                    <div class="bar"><div class="fill" id="fill"></div></div>
+                    <div id="category" style="font-size: 18px; font-weight: bold;"></div>
+                    <div id="breakdown" style="margin-top: 20px; text-align: left;"></div>
+                    <button class="btn" onclick="resetForm()" style="margin-top: 20px;">Predict Again</button>
+                </div>
+            </div>
         </div>
     </div>
     
     <script>
-        // API URL - make sure this is correct
-        const API_URL = 'http://localhost:5000/api';
-        
-        const form = document.getElementById('predictionForm');
-        const predictBtn = document.getElementById('predictBtn');
-        const statusMessage = document.getElementById('statusMessage');
-        
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        function calculatePlacement() {
+            const cgpa = parseFloat(document.getElementById('cgpa').value);
+            const technicalSkills = Array.from(document.querySelectorAll('#technicalSkills input:checked')).map(cb => cb.value);
+            const softSkills = Array.from(document.querySelectorAll('#softSkills input:checked')).map(cb => cb.value);
+            const internships = parseInt(document.getElementById('internships').value);
+            const projects = parseInt(document.getElementById('projects').value);
+            const aptitudeScore = parseInt(document.getElementById('aptitudeScore').value);
             
-            // Show loading state
-            predictBtn.innerHTML = '⏳ Analyzing with ML Model...';
-            predictBtn.disabled = true;
+            const cgpaScore = (cgpa / 10) * 100;
+            const techScore = Math.min(100, technicalSkills.length * 15);
+            const softScore = Math.min(100, softSkills.length * 12);
+            const internshipScore = Math.min(100, internships * 25);
+            const projectScore = Math.min(100, projects * 15);
+            const aptitude = aptitudeScore;
             
-            // Clear previous messages
-            statusMessage.innerHTML = '';
+            const finalScore = (cgpaScore * 0.25 + techScore * 0.30 + softScore * 0.15 + internshipScore * 0.10 + projectScore * 0.10 + aptitude * 0.10);
             
-            try {
-                // Collect form data
-                const studentData = {
-                    cgpa: parseFloat(document.getElementById('cgpa').value),
-                    technicalSkills: Array.from(document.querySelectorAll('#technicalSkills input:checked')).map(cb => cb.value),
-                    softSkills: Array.from(document.querySelectorAll('#softSkills input:checked')).map(cb => cb.value),
-                    internships: parseInt(document.getElementById('internships').value) || 0,
-                    projects: parseInt(document.getElementById('projects').value) || 0,
-                    aptitudeScore: parseInt(document.getElementById('aptitudeScore').value) || 0
-                };
-                
-                // Validate data
-                if (isNaN(studentData.cgpa) || studentData.cgpa < 0 || studentData.cgpa > 10) {
-                    throw new Error('CGPA must be between 0 and 10');
-                }
-                
-                if (isNaN(studentData.aptitudeScore) || studentData.aptitudeScore < 0 || studentData.aptitudeScore > 100) {
-                    throw new Error('Aptitude score must be between 0 and 100');
-                }
-                
-                console.log('📊 Sending data to backend:', studentData);
-                
-                // Send to backend - FIXED: No space between $ and {
-                const response = await fetch(`${API_URL}/prediction/predict`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(studentData)
-                });
-                
-                console.log('Response status:', response.status);
-                
-                const result = await response.json();
-                console.log('📈 API Response:', result);
-                
-                if (response.ok && result.success) {
-                    // Save prediction data to localStorage
-                    localStorage.setItem('predictionResult', JSON.stringify(result.prediction));
-                    localStorage.setItem('studentData', JSON.stringify(studentData));
-                    
-                    console.log('✅ Saved to localStorage:', result.prediction);
-                    
-                    // Show success message
-                    statusMessage.innerHTML = '<div class="success-message">✅ Prediction successful! Redirecting...</div>';
-                    
-                    // Redirect to results page
-                    setTimeout(() => {
-                        window.location.href = 'result.html';
-                    }, 1000);
-                    
-                } else {
-                    throw new Error(result.error || 'Prediction failed');
-                }
-                
-            } catch (error) {
-                console.error('❌ Error:', error);
-                statusMessage.innerHTML = `<div class="error-message">❌ ${error.message}<br><small>Make sure backend is running on http://localhost:5000</small></div>`;
-                predictBtn.innerHTML = '🔮 Predict Placement Chance';
-                predictBtn.disabled = false;
-            }
-        });
-        
-        // Test backend connection on page load
-        async function testBackend() {
-            try {
-                const response = await fetch(`${API_URL}/health`);
-                const data = await response.json();
-                console.log('✅ Backend connected:', data);
-                statusMessage.innerHTML = '<div class="success-message">✅ Connected to backend server</div>';
-                setTimeout(() => {
-                    statusMessage.innerHTML = '';
-                }, 3000);
-            } catch (error) {
-                console.error('❌ Backend not reachable:', error);
-                statusMessage.innerHTML = '<div class="error-message">⚠️ Backend server not running. Please start the backend with: cd backend && npm start</div>';
-            }
+            let category, placementChance;
+            if (finalScore >= 85) { category = "Excellent"; placementChance = 95; }
+            else if (finalScore >= 70) { category = "Very Good"; placementChance = 85; }
+            else if (finalScore >= 55) { category = "Good"; placementChance = 70; }
+            else if (finalScore >= 40) { category = "Average"; placementChance = 50; }
+            else { category = "Needs Improvement"; placementChance = 30; }
+            
+            return { placementChance, finalScore: Math.round(finalScore), category, breakdown: { cgpa: Math.round(cgpaScore), technical: Math.round(techScore), softSkills: Math.round(softScore), internships: Math.round(internshipScore), projects: Math.round(projectScore), aptitude: Math.round(aptitude) } };
         }
         
-        testBackend();
+        document.getElementById('predictBtn').addEventListener('click', () => {
+            const result = calculatePlacement();
+            document.getElementById('formSection').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('chance').textContent = result.placementChance + '%';
+            document.getElementById('fill').style.width = result.placementChance + '%';
+            document.getElementById('category').textContent = result.category;
+            const breakdownDiv = document.getElementById('breakdown');
+            breakdownDiv.innerHTML = '<strong>Score Breakdown:</strong><br>' +
+                `CGPA: ${result.breakdown.cgpa}%<br>` +
+                `Technical Skills: ${result.breakdown.technical}%<br>` +
+                `Soft Skills: ${result.breakdown.softSkills}%<br>` +
+                `Internships: ${result.breakdown.internships}%<br>` +
+                `Projects: ${result.breakdown.projects}%<br>` +
+                `Aptitude: ${result.breakdown.aptitude}%`;
+        });
+        
+        function resetForm() {
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+        }
     </script>
 </body>
 </html>
