@@ -6,7 +6,237 @@
     <title>Placement Predictor | AI-Powered Career Assistant</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .landing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            color: white;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: #ffd700;
+        }
+
+        .highlight {
+            color: #ffd700;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 36px;
+            }
+        }
+
+        .gradient {
+            background: linear-gradient(135deg, #ffd700, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #ff6b6b;
+            color: white;
+            padding: 14px 36px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            background: #ff5252;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .cta-btn i {
+            font-size: 18px;
+        }
+
+        /* Stats Cards */
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 25px 35px;
+            border-radius: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.25);
+        }
+
+        .stat-card i {
+            font-size: 40px;
+            color: #ffd700;
+            margin-bottom: 10px;
+        }
+
+        .stat-card h3 {
+            font-size: 32px;
+            margin: 10px 0 5px;
+            font-weight: 800;
+        }
+
+        .stat-card p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Features Section */
+        .features-section {
+            background: white;
+            border-radius: 30px;
+            padding: 50px 40px;
+            margin-top: 60px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .features-section h2 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .features-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 35px 25px;
+            border-radius: 20px;
+            width: 280px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .feature-icon i {
+            font-size: 36px;
+            color: white;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-section, .features-section {
+            animation: fadeInUp 0.8s ease-out;
+        }
+    </style>
 </head>
 <body>
     <div class="landing-container">
