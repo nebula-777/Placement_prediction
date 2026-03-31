@@ -1,0 +1,13 @@
+{
+  "intercept": -3.2145,
+  "cgpa": 0.3852,
+  "technical": 0.0321,
+  "soft": 0.0284,
+  "internships": 0.4213,
+  "projects": 0.1756,
+  "aptitude": 0.0218,
+  "backlogs": -0.5892,
+  "model_accuracy": 0.875,
+  "total_records": 40,
+  "placement_rate": 0.625
+}
